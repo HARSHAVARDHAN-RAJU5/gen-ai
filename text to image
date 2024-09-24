@@ -1,0 +1,24 @@
+from gemini import Client
+
+
+# Your Gemini API key
+API_KEY = 'AIzaSyDyVc5R9JVlLIk5Ik3i5b-_VlHex5RaWA8'
+
+# Image file path
+image_path = r'Desktop\IMG.jpg'
+
+# Load the image
+with open(image_path, 'rb') as img_file:
+    image_data = img_file.read()
+
+# Initialize the Gemini client
+gemini_client = gemini.Client(api_key=API_KEY)
+
+response = gemini_client.extract_text(image=image_data)
+
+# Check the response
+if response['status'] == 'success':
+    text = response['text']
+    print(f"Extracted Text:\n{text}")
+else:
+    print("Failed to extract text from image")
