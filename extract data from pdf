@@ -1,0 +1,31 @@
+import requests
+import os
+
+api_url = os.getenv("https://api.gemini.ai/extract")
+
+if not api_url:
+    print("Error: API URL is not set in the environment variable 'GEMINI_API_URL'.")
+    exit(1)
+api_key = "AIzaSyD3BrNjuKSZfBb82-CKuMtTLfUaOxJycaY"
+
+pdf_path = r"Downloads\resume(1).pdf"
+headers = {
+    "Authorization": f"Bearer {api_key}",
+    "Content-Type": "application/pdf"
+}
+
+try:
+    with open(pdf_path, 'rb') as pdf_file:
+        response = requests.post(api_url, headers=headers, files={"file": pdf_file})
+
+    if response.status_code == 200:
+
+        print("Extracted Data:", response.json())
+    else:
+
+        print(f"Error {response.status_code}: {response.text}")
+
+except FileNotFoundError:
+    print(f"Error: The file '{pdf_path}' was not found.")
+except Exception as e:
+    print(f"An unexpected error occurred: {e}")
